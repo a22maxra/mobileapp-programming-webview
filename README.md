@@ -1,42 +1,57 @@
 
 # Rapport
 
-**Skriv din rapport här!**
+För att ändra namnet på appen ändrades stringen *app_name* vilket ligger i res -> values -> strings.xml
+Namnet blev "MyNewApp".
 
-_Du kan ta bort all text som finns sedan tidigare_.
-
-## Följande grundsyn gäller dugga-svar:
-
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
-
+För att tillåta internet åtkomst för appen behövs en rad kod läggas till i AndroidManifest.xml filen,
+inom <Manifest> taggen:
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
-    }
-}
+    <uses-permission android:name="android.permission.INTERNET"/>
+```
+Denna rad kod get tillåtelse till internet.
+
+För att kunna visa websidor och kunna klicka på länkar måste TextView elementet bytas ut mot ett
+WebView element i activity.main filen:
+```
+    <WebView
+        android:id="@+id/my_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+Nu måste WebView elementet på något sätt kunna referas till, vilket är varför en privat WebView variabel
+vid namn _myWebView_ skapas i MainActivity.java, som sedan instansieras i onCreate() vilket gör att att WebView
+elementet instansieras när appen öppnas.
 
-![](android.png)
+Eftersom användaren ska stanna kvar på appen när en extern hemsida öppnas ska en WebViewClient fästas
+på WebView, detta förhindrar att en tredjeparts browser öppnas och sidan visas istället i appen. För att 
+göra detta används WebView ID för att hitta den och sedan setWebViewClient():
+```
+    myWebView = (WebView) findViewById(R.id.my_webview);
+    myWebView.setWebViewClient(new WebViewClient());
+```
 
-Läs gärna:
+För att sedan kunna öppna externa och interna websidor måste javascript aktiverats, detta kräver
+endast två rader kod i onCreate() metoden:
+```
+    WebSettings webSettings = myWebView.getSettings();
+    webSettings.setJavaScriptEnabled(true);
+```
 
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
+Inom showExternalWebPage() länkas det till en hemsida och showInternalWebPage() i länkas det med
+filvägen till den html fil som skapats i assets mappen, HTML filen kallas interPage.html och koden
+är som sådan:
+```
+    <!DOCTYPE html>
+    <html>
+        <body style="background-color:green;">
+            <h1 style="padding: 50px">WELCOME!</h1>
+        </body>
+    </html>
+```
+Det är en enkel HTML sida som blir röd och det står "WELCOME". Bild på den internela sidan:
+![](InternalPage.png)
+
+Bild på externa sidan som länkar till example.com:
+![](ExternalPage.png)
