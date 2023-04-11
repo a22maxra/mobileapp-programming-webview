@@ -5,7 +5,7 @@ För att ändra namnet på appen ändrades stringen *app_name* vilket ligger i r
 Namnet blev "MyNewApp".
 
 För att tillåta internet åtkomst för appen behövs en rad kod läggas till i AndroidManifest.xml filen,
-inom <Manifest> taggen:
+inom Manifest taggen:
 ```
     <uses-permission android:name="android.permission.INTERNET"/>
 ```
@@ -40,7 +40,7 @@ endast två rader kod i onCreate() metoden:
 ```
 
 Inom showExternalWebPage() länkas det till en hemsida och showInternalWebPage() i länkas det med
-filvägen till den html fil som skapats i assets mappen, HTML filen kallas interPage.html och koden
+filvägen till den html fil som skapats i assets mappen, HTML filen kallas internalPage.html och koden
 är som sådan:
 ```
     <!DOCTYPE html>
@@ -50,7 +50,7 @@ filvägen till den html fil som skapats i assets mappen, HTML filen kallas inter
         </body>
     </html>
 ```
-Det är en enkel HTML sida som blir röd och det står "WELCOME". Bild på den internela sidan:
+Det är en enkel HTML sida som blir grön och det står "WELCOME". Bild på internal sidan:
 ![](InternalPage.png)
 
 Bild på externa sidan som länkar till example.com:
