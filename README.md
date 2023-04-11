@@ -52,7 +52,6 @@ filvägen till den html fil som skapats i assets mappen, HTML filen kallas inter
 ```
 Det är en enkel HTML sida som blir grön och det står "WELCOME". Bild på internal sidan:
 <img src="InternalPage.png" width="25%">
-![](InternalPage.png)
 
 Bild på externa sidan som länkar till example.com:
-![](ExternalPage.png)
+<img src="ExternalPage.png" width="25%">
